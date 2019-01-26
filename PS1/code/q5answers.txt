@@ -1,0 +1,78 @@
+5.1 Visualization
+
+For the 'Parch' (Parent/Children Aboard) feature, the histograms show a trend
+indicating that, amongst this demographic, the majority of people who did not
+survive are people with 0 children. This is likely because parents with children
+had higher priority to escape on the lifeboats than those who didn't. As the
+ratio of parent to children increases, the number of those who both survived
+and didn't survive exponentially decreases. I also noticed a trend that for
+parents with 1-3 children had higher survival rate than death rate.
+
+For the 'Age' feature, I noticed that the highest death rates were amongst
+passengers aged 20-40. However, their survival rate is also relatively higher
+than those outside that demographic most likely because there were a larger
+amount of passengers in between the age range of 20-40. There's also a trend
+showing that for almost all age ranges except 0-10 years there were more
+people who died than survived.
+
+For the 'SibSp' (Siblings/Spouses) feature, I noticed an exponentially
+decreasing trend for both death and survival frequencies, with the
+highest death rates being those with 0 siblings/spouses and the lowest
+death rates being those with 5 siblings/spouses. This plot shows that
+there were many more passengers with 0-1 siblings/spouses than those
+with 2+ siblings/spouses.
+
+For the 'Sex' feature, I noticed that the females had a higher survival rate
+than death rate. On the other hand, males had a higher death rate than
+survival rate. This is because women were prioritized over the men to get on
+the lifeboats.
+
+For the 'Embarked' (Port of Embarkation) feature, assuming that 0 = Cherbourg,
+1 = Queenstown, and 2 = Southampton, I noticed that there was a substantially
+greater number of deaths coming from those who embarked from Southampton. In
+general, there were the most amount of passengers who embarked from Southampton.
+Additionally, another interesting trend is that those who embarked from
+Cherbourg were the only demographic who had a higher survival rate than death
+rate. This may be due to socioeconomic class and prioritizing those of higher
+class over those of lower class.
+
+For the 'Fare' feature, I noticed that those who paid the least amount of fare
+expenses had the highest death rates. Those who paid between 0-50 were amongst
+the only demographic who had a higher death rate compared to survival rate.
+Those who paid 50+ all had a higher survival rate than death rate. This again
+might be caused by a socioeconomic division between the passengers, preserving
+those with higher class and leaving lower class members to die.
+
+For the 'Pclass' feature, I noticed that those of the upper class (1) were the
+only group to have a higher survival rate than death rate. The middle class (2)
+had a relatively even survival/death ratio but there were still a couple more
+deaths than survivals. On the contrary, the lower class (3) had an extremely
+high death rate compared to survival rate, strengthening the idea that the upper
+class had a higher priority to the lifeboats than the lower class.
+
+################################################################################
+
+5.2 Evaluation
+
+(c) The training error of the DecisionTreeClassifier is 0.014.
+
+(d) For the MajorityVoteClassifier, the training error is 0.404 and the test error
+is also 0.404. For the RandomClassifier, the training error is 0.503 and the test
+error is also 0.503. For the DecisionTreeClassifier, the training error is 0.012
+and the test error is 0.266.
+
+(e) Given the plot, I think that the best depth limit is 3 because this is when
+the test error is at its lowest and the training error is starting to decrease
+as well, but not to the point where it's caused by overfitting. I noticed that
+for the training error, there is overfitting as the depth limit increases because
+the training error gets closer and closer to 0.0, indicating that a depth tree
+with a greater depth limit will be built more specifically to satisfy the training
+data.
+
+(f) The plot shows that, for the DecisionTreeClassifier, as the training data
+split size increased, the training error and test error both gradually decreased.
+The training error has a sharp decrease around a split size of about 0.8-0.95
+because the training data is essentially being tested against itself. The
+training error and test error also level out around an error of 0.2. Finally,
+the training data split sizes don't have much of an effect on the baseline
+classifiers.
