@@ -247,9 +247,8 @@ def error(clf, X, y, ntrials=100, test_size=0.2) :
         train_error_sum += temp_train_error
 
         # test error
-        clf.fit(Xtest, ytest)
-        y_pred_test = clf.predict(Xtrain)
-        temp_test_error = 1 - metrics.accuracy_score(ytrain, y_pred_test, normalize=True)
+        y_pred_test = clf.predict(Xtest)
+        temp_test_error = 1 - metrics.accuracy_score(ytest, y_pred_test, normalize=True)
         test_error_sum += temp_test_error
 
     train_error = train_error_sum / 100
@@ -318,7 +317,7 @@ def main():
     # part c: evaluate training error of Decision Tree classifier
     # use criterion of "entropy" for Information gain 
     print 'Classifying using Decision Tree...'
-    dt_clf = DecisionTreeClassifier("entropy")
+    dt_clf = DecisionTreeClassifier(criterion="entropy")
     dt_clf.fit(X,y)
     dt_y_pred = dt_clf.predict(X)
     dt_train_error = 1 - metrics.accuracy_score(y, dt_y_pred, normalize=True)
@@ -346,7 +345,7 @@ def main():
     print 'Investigating various classifiers...'
     mv_train_error_cv, mv_test_error_cv = error(MajorityVoteClassifier(), X, y)
     rand_train_error_cv, rand_test_error_cv = error(RandomClassifier(), X, y)
-    dt_train_error_cv, dt_test_error_cv = error(DecisionTreeClassifier(), X, y)
+    dt_train_error_cv, dt_test_error_cv = error(DecisionTreeClassifier(criterion="entropy"), X, y)
     print '\t-- MV training error: %.3f' % mv_train_error_cv + ', test error: %.3f' % mv_test_error_cv
     print '\t-- RAND training error: %.3f' % rand_train_error_cv + ', test error: %.3f' % rand_test_error_cv
     print '\t-- DT training error: %.3f' % dt_train_error_cv + ', test error: %.3f' % dt_test_error_cv
@@ -404,7 +403,7 @@ def main():
 
     for j in [float(k) / 20 for k in range(1, 20)]:
         lc_clf = DecisionTreeClassifier(criterion="entropy", max_depth=3)
-        lc_train_error, lc_test_error = error(lc_clf, X, y, test_size=j)
+        lc_train_error, lc_test_error = error(lc_clf, X, y, test_size=(1-j))
         lc_train_arr.append(lc_train_error)
         lc_test_arr.append(lc_test_error)
 
