@@ -109,10 +109,12 @@ class PolynomialRegression() :
             Phi     -- numpy array of shape (n,(m+1)), mapped features
         """
         
-        n,d = X.shape
+        n = X.shape
         
         ### ========== TODO : START ========== ###
         # part b: modify to create matrix for simple linear model
+        X = np.insert(X, 0, 1, axis=0)
+
         # part g: modify to create matrix for polynomial model
         Phi = X
         m = self.m_
@@ -240,14 +242,16 @@ class PolynomialRegression() :
         --------------------
             y       -- numpy array of shape (n,), predictions
         """
-        if self.coef_ is None :
-            raise Exception("Model not initialized. Perform a fit first.")
+        # if self.coef_ is None :
+        #     raise Exception("Model not initialized. Perform a fit first.")
         
-        X = self.generate_polynomial_features(X) # map features
+        X = self.generate_polynomial_features(X)[np.newaxis] # map features
+        Z = np.array([1, 2, 3, 4])
         
         ### ========== TODO : START ========== ###
         # part c: predict y
-        y = None
+        #y = np.dot(X, self.coef)
+        y = np.dot(X, Z)
         ### ========== TODO : END ========== ###
         
         return y
@@ -320,6 +324,12 @@ def main() :
     ### ========== TODO : START ========== ###
     # part a: main code for visualizations
     print 'Visualizing data...'
+    x_train = np.genfromtxt('../data/regression_train.csv', delimiter=',')[:,0]
+    y_train = np.genfromtxt('../data/regression_train.csv', delimiter=',')[:,1]
+    x_test = np.genfromtxt('../data/regression_test.csv', delimiter=',')[:,0]
+    y_test = np.genfromtxt('../data/regression_test.csv', delimiter=',')[:,1]
+    # plot_data(x_train, y_train)
+    # plot_data(x_test, y_test)
     
     ### ========== TODO : END ========== ###
     
@@ -328,6 +338,9 @@ def main() :
     ### ========== TODO : START ========== ###
     # parts b-f: main code for linear regression
     print 'Investigating linear regression...'
+    pr_model = PolynomialRegression()
+    arr = np.array([1, 2, 3])
+    print(pr_model.predict(arr))
     
     ### ========== TODO : END ========== ###
     
