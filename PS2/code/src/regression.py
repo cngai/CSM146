@@ -113,7 +113,7 @@ class PolynomialRegression() :
         
         ### ========== TODO : START ========== ###
         # part b: modify to create matrix for simple linear model
-        X = np.insert(X, 0, 1, axis=0)
+        X = np.insert(X, 0, 1, axis=1)
 
         # part g: modify to create matrix for polynomial model
         Phi = X
@@ -272,8 +272,16 @@ class PolynomialRegression() :
         """
         ### ========== TODO : START ========== ###
         # part d: compute J(theta)
+        X = self.generate_polynomial_features(X)
+
         cost = 0
+        for i in range(len(y)):
+            y_pred = np.dot(self.coef_, X[i])
+            y_actual = y[i]
+            error = y_actual - y_pred
+            cost += (error ** 2)
         ### ========== TODO : END ========== ###
+        print(cost)
         return cost
     
     
@@ -324,12 +332,8 @@ def main() :
     ### ========== TODO : START ========== ###
     # part a: main code for visualizations
     print 'Visualizing data...'
-    x_train = np.genfromtxt('../data/regression_train.csv', delimiter=',')[:,0]
-    y_train = np.genfromtxt('../data/regression_train.csv', delimiter=',')[:,1]
-    x_test = np.genfromtxt('../data/regression_test.csv', delimiter=',')[:,0]
-    y_test = np.genfromtxt('../data/regression_test.csv', delimiter=',')[:,1]
-    # plot_data(x_train, y_train)
-    # plot_data(x_test, y_test)
+    # plot_data(train_data.X, train_data.y)
+    # plot_data(test_data.X, test_data.y)
     
     ### ========== TODO : END ========== ###
     
@@ -339,8 +343,10 @@ def main() :
     # parts b-f: main code for linear regression
     print 'Investigating linear regression...'
     pr_model = PolynomialRegression()
-    arr = np.array([1, 2, 3])
-    print(pr_model.predict(arr))
+    pr_model.coef_ = np.zeros(2)    # array of [0., 0.]
+    pr_model.cost(train_data.X, train_data.y)
+    # arr = np.array([1, 2, 3])
+    # print(pr_model.predict(arr))
     
     ### ========== TODO : END ========== ###
     
