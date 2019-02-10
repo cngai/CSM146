@@ -166,7 +166,7 @@ class PolynomialRegression() :
             # change the default eta in the function signature to 'eta=None'
             # and update the line below to your learning rate function
             if eta_input is None :
-                eta = None # change this line
+                eta = 1 / float(1 + t) # change this line
             else :
                 eta = eta_input
             ### ========== TODO : END ========== ###
@@ -206,6 +206,9 @@ class PolynomialRegression() :
         
         print 'number of iterations: %d' % (t+1)
 
+        #theta val
+        print(self.coef_)
+
         #final value of objective function
         x = np.reshape(X[:,1], (n,1))
         cost = self.cost(x,y)
@@ -231,11 +234,20 @@ class PolynomialRegression() :
         """
         
         X = self.generate_polynomial_features(X) # map features
+        n,d = X.shape
         
         ### ========== TODO : START ========== ###
         # part e: implement closed-form solution
         # hint: use np.dot(...) and np.linalg.pinv(...)
         #       be sure to update self.coef_ with your solution
+        xTx = np.dot(np.transpose(X), X)
+        xTx_inv = np.linalg.pinv(xTx)
+        xTy = np.dot(np.transpose(X), y)
+        self.coef_ = np.dot(xTx_inv, xTy)
+        print(self.coef_)
+        x = np.reshape(X[:,1], (n,1))
+        cost = self.cost(x,y)
+        print(cost)
         
         ### ========== TODO : END ========== ###
     
@@ -351,11 +363,15 @@ def main() :
     # parts b-f: main code for linear regression
     print 'Investigating linear regression...'
     pr_model = PolynomialRegression()
-    #pr_model.coef_ = np.zeros(2)    # array of [0., 0.]
-    pr_model.fit_GD(train_data.X, train_data.y, eta=0.00001)
-    pr_model.fit_GD(train_data.X, train_data.y, eta=0.001)
-    pr_model.fit_GD(train_data.X, train_data.y, eta=0.01)
-    pr_model.fit_GD(train_data.X, train_data.y, eta=0.0407)
+    print 'without learning rate'
+    pr_model.fit_GD(train_data.X, train_data.y, eta=0.0001, eps=0.000001)
+    pr_model.fit_GD(train_data.X, train_data.y, eta=0.001, eps=0.000001)
+    pr_model.fit_GD(train_data.X, train_data.y, eta=0.01, eps=0.000001)
+    pr_model.fit_GD(train_data.X, train_data.y, eta=0.0407, eps=0.000001)
+    print 'closed-form solution'
+    pr_model.fit(train_data.X, train_data.y)
+    print 'with learning rate'
+    pr_model.fit_GD(train_data.X, train_data.y, eps=0.000001)
 
 
     
