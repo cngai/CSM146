@@ -179,11 +179,10 @@ class PolynomialRegression() :
             xTy = np.dot(np.transpose(X), y)
             grad_J = xTx_theta - xTy
             self.coef_ = self.coef_ - (eta * grad_J)
-            print(self.coef_)
 
             # track error
             # hint: you cannot use self.predict(...) to make the predictions
-            y_pred = y # change this line
+            y_pred = np.dot(X, self.coef_)
             err_list[t] = np.sum(np.power(y - y_pred, 2)) / float(n)                
             ### ========== TODO : END ========== ###
             
@@ -206,6 +205,11 @@ class PolynomialRegression() :
                 plt.pause(0.05) # pause for 0.05 sec
         
         print 'number of iterations: %d' % (t+1)
+
+        #final value of objective function
+        x = np.reshape(X[:,1], (n,1))
+        cost = self.cost(x,y)
+        print(cost)
         
         return self
     
@@ -248,16 +252,14 @@ class PolynomialRegression() :
         --------------------
             y       -- numpy array of shape (n,), predictions
         """
-        # if self.coef_ is None :
-        #     raise Exception("Model not initialized. Perform a fit first.")
+        if self.coef_ is None :
+            raise Exception("Model not initialized. Perform a fit first.")
         
         X = self.generate_polynomial_features(X)[np.newaxis] # map features
-        Z = np.array([1, 2, 3, 4])
         
         ### ========== TODO : START ========== ###
         # part c: predict y
-        #y = np.dot(X, self.coef)
-        y = np.dot(X, Z)
+        y = np.dot(X, self.coef_)
         ### ========== TODO : END ========== ###
         
         return y
@@ -287,7 +289,7 @@ class PolynomialRegression() :
             error = y_actual - y_pred
             cost += (error ** 2)
         ### ========== TODO : END ========== ###
-        print(cost)
+
         return cost
     
     
@@ -350,7 +352,10 @@ def main() :
     print 'Investigating linear regression...'
     pr_model = PolynomialRegression()
     #pr_model.coef_ = np.zeros(2)    # array of [0., 0.]
-    pr_model.fit_GD(train_data.X, train_data.y, eta=0.2)
+    pr_model.fit_GD(train_data.X, train_data.y, eta=0.00001)
+    pr_model.fit_GD(train_data.X, train_data.y, eta=0.001)
+    pr_model.fit_GD(train_data.X, train_data.y, eta=0.01)
+    pr_model.fit_GD(train_data.X, train_data.y, eta=0.0407)
 
 
     
