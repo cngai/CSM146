@@ -174,7 +174,13 @@ class PolynomialRegression() :
             ### ========== TODO : START ========== ###
             # part d: update theta (self.coef_) using one step of GD
             # hint: you can write simultaneously update all theta using vector math
-                
+            xTx = np.dot(np.transpose(X), X)
+            xTx_theta = np.dot(xTx, self.coef_)
+            xTy = np.dot(np.transpose(X), y)
+            grad_J = xTx_theta - xTy
+            self.coef_ = self.coef_ - (eta * grad_J)
+            print(self.coef_)
+
             # track error
             # hint: you cannot use self.predict(...) to make the predictions
             y_pred = y # change this line
@@ -343,10 +349,10 @@ def main() :
     # parts b-f: main code for linear regression
     print 'Investigating linear regression...'
     pr_model = PolynomialRegression()
-    pr_model.coef_ = np.zeros(2)    # array of [0., 0.]
-    pr_model.cost(train_data.X, train_data.y)
-    # arr = np.array([1, 2, 3])
-    # print(pr_model.predict(arr))
+    #pr_model.coef_ = np.zeros(2)    # array of [0., 0.]
+    pr_model.fit_GD(train_data.X, train_data.y, eta=0.2)
+
+
     
     ### ========== TODO : END ========== ###
     
