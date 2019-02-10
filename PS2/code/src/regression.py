@@ -13,6 +13,8 @@ import numpy as np
 # matplotlib libraries
 import matplotlib.pyplot as plt
 
+import math
+
 ######################################################################
 # classes
 ######################################################################
@@ -110,17 +112,20 @@ class PolynomialRegression() :
         """
         
         n = X.shape
+
         
         ### ========== TODO : START ========== ###
         # part b: modify to create matrix for simple linear model
         X = np.insert(X, 0, 1, axis=1)
 
         # part g: modify to create matrix for polynomial model
+        for i in range(len(X)):
+            X[i] = X[i] ** i
+
         Phi = X
         m = self.m_
         
         ### ========== TODO : END ========== ###
-        
         return Phi
     
     
@@ -320,7 +325,12 @@ class PolynomialRegression() :
         """
         ### ========== TODO : START ========== ###
         # part h: compute RMSE
-        error = 0
+        X = self.generate_polynomial_features(X)
+        n,d = X.shape
+        x = np.reshape(X[:,1], (n,1))
+        cost = self.cost(x,y)
+        error = math.sqrt(cost / len(X))
+        print(error)
         ### ========== TODO : END ========== ###
         return error
     
@@ -382,6 +392,8 @@ def main() :
     ### ========== TODO : START ========== ###
     # parts g-i: main code for polynomial regression
     print 'Investigating polynomial regression...'
+    pr_model.generate_polynomial_features(train_data.X)
+    pr_model.rms_error(train_data.X, train_data.y)
         
     ### ========== TODO : END ========== ###
     
