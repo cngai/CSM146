@@ -123,7 +123,6 @@ class PolynomialRegression() :
             X = np.insert(X, i, X[:,1] ** i, axis=1)
 
         Phi = X
-        print(Phi)
         m = self.m_
         
         ### ========== TODO : END ========== ###
@@ -214,12 +213,12 @@ class PolynomialRegression() :
         print 'number of iterations: %d' % (t+1)
 
         #theta val
-        print(self.coef_)
+        #print(self.coef_)
 
         #final value of objective function
         x = np.reshape(X[:,1], (n,1))
         cost = self.cost(x,y)
-        print(cost)
+        #print(cost)
         
         return self
     
@@ -240,7 +239,7 @@ class PolynomialRegression() :
             self    -- an instance of self
         """
         
-        X = self.generate_polynomial_features(X) # map features
+        #X = self.generate_polynomial_features(X) # map features
         n,d = X.shape
         
         ### ========== TODO : START ========== ###
@@ -252,9 +251,9 @@ class PolynomialRegression() :
         xTy = np.dot(np.transpose(X), y)
         self.coef_ = np.dot(xTx_inv, xTy)
         #print(self.coef_)
-        x = np.reshape(X[:,1], (n,1))
-        cost = self.cost(x,y)
-        print(cost)
+        #x = np.reshape(X[:,1], (n,1))
+        #cost = self.cost(x,y)
+        #print(cost)
         
         ### ========== TODO : END ========== ###
     
@@ -299,8 +298,7 @@ class PolynomialRegression() :
         """
         ### ========== TODO : START ========== ###
         # part d: compute J(theta)
-        X = self.generate_polynomial_features(X)
-        print(X)
+        #X = self.generate_polynomial_features(X)
 
         cost = 0
         for i in range(len(y)):
@@ -309,7 +307,6 @@ class PolynomialRegression() :
             error = y_actual - y_pred
             cost += (error ** 2)
         ### ========== TODO : END ========== ###
-
         return cost
     
     
@@ -328,7 +325,8 @@ class PolynomialRegression() :
         """
         ### ========== TODO : START ========== ###
         # part h: compute RMSE
-        self.fit(X, y)
+        X = self.generate_polynomial_features(X)
+        #self.fit(X, y)
         n,d = X.shape
         #x = np.reshape(X[:,1], (n,1))
         cost = self.cost(X,y)
@@ -375,16 +373,16 @@ def main() :
     ### ========== TODO : START ========== ###
     # parts b-f: main code for linear regression
     print 'Investigating linear regression...'
-    pr_model = PolynomialRegression()
-    print 'without learning rate'
-    pr_model.fit_GD(train_data.X, train_data.y, eta=0.0001, eps=0.000001)
-    pr_model.fit_GD(train_data.X, train_data.y, eta=0.001, eps=0.000001)
-    pr_model.fit_GD(train_data.X, train_data.y, eta=0.01, eps=0.000001)
-    pr_model.fit_GD(train_data.X, train_data.y, eta=0.0407, eps=0.000001)
-    print 'closed-form solution'
-    pr_model.fit(train_data.X, train_data.y)
-    print 'with learning rate'
-    pr_model.fit_GD(train_data.X, train_data.y, eps=0.000001)
+    # pr_model = PolynomialRegression()
+    # print 'without learning rate'
+    # pr_model.fit_GD(train_data.X, train_data.y, eta=0.0001, eps=0.000001)
+    # pr_model.fit_GD(train_data.X, train_data.y, eta=0.001, eps=0.000001)
+    # pr_model.fit_GD(train_data.X, train_data.y, eta=0.01, eps=0.000001)
+    # pr_model.fit_GD(train_data.X, train_data.y, eta=0.0407, eps=0.000001)
+    # print 'closed-form solution'
+    # pr_model.fit(train_data.X, train_data.y)
+    # print 'with learning rate'
+    # pr_model.fit_GD(train_data.X, train_data.y, eps=0.000001)
 
 
     
@@ -395,9 +393,30 @@ def main() :
     ### ========== TODO : START ========== ###
     # parts g-i: main code for polynomial regression
     print 'Investigating polynomial regression...'
-    pr_model2 = PolynomialRegression(m=2)
-    pr_model2.generate_polynomial_features(train_data.X)
-    pr_model2.rms_error(train_data.X, train_data.y)
+    # pr_model2 = PolynomialRegression(m=2)
+    # pr_model2.rms_error(train_data.X, train_data.y)
+    train_rms = []
+    test_rms = []
+    model_num = []
+    for i in range(0, 11):
+        model_num.append(i)
+        print 'M = %d' % i
+        pr_model2 = PolynomialRegression(m=i)
+        fitted_x = pr_model2.generate_polynomial_features(train_data.X)
+        pr_model2.fit(fitted_x, train_data.y)
+        train_rms.append(pr_model2.rms_error(train_data.X, train_data.y))
+        test_rms.append(pr_model2.rms_error(test_data.X, test_data.y))
+    #pr_model2.plot_regression()
+    plt.plot(model_num, train_rms, label="Training RMSE")
+    plt.plot(model_num, test_rms, label="Test RMSE")
+    plt.legend(loc=0, fontsize="x-small")
+    plt.xlabel("Model Complexity (degree)")
+    plt.ylabel("RMSE")
+    plt.xticks(range(0,11))
+    plt.title("RMSE vs. Model Complexity")
+    plt.show()
+
+
 
         
     ### ========== TODO : END ========== ###
