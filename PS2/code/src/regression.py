@@ -118,14 +118,16 @@ class PolynomialRegression() :
         # part b: modify to create matrix for simple linear model
         X = np.insert(X, 0, 1, axis=1)
 
-        # part g: modify to create matrix for polynomial model
-        for i in range(len(X)):
-            X[i] = X[i] ** i
+        # part g: modify to create matrix for polynomial model     
+        for i in range(len(X[0]), self.m_ + 1):
+            X = np.insert(X, i, X[:,1] ** i, axis=1)
 
         Phi = X
+        print(Phi)
         m = self.m_
         
         ### ========== TODO : END ========== ###
+        #print(Phi)
         return Phi
     
     
@@ -249,7 +251,7 @@ class PolynomialRegression() :
         xTx_inv = np.linalg.pinv(xTx)
         xTy = np.dot(np.transpose(X), y)
         self.coef_ = np.dot(xTx_inv, xTy)
-        print(self.coef_)
+        #print(self.coef_)
         x = np.reshape(X[:,1], (n,1))
         cost = self.cost(x,y)
         print(cost)
@@ -298,6 +300,7 @@ class PolynomialRegression() :
         ### ========== TODO : START ========== ###
         # part d: compute J(theta)
         X = self.generate_polynomial_features(X)
+        print(X)
 
         cost = 0
         for i in range(len(y)):
@@ -325,10 +328,10 @@ class PolynomialRegression() :
         """
         ### ========== TODO : START ========== ###
         # part h: compute RMSE
-        X = self.generate_polynomial_features(X)
+        self.fit(X, y)
         n,d = X.shape
-        x = np.reshape(X[:,1], (n,1))
-        cost = self.cost(x,y)
+        #x = np.reshape(X[:,1], (n,1))
+        cost = self.cost(X,y)
         error = math.sqrt(cost / len(X))
         print(error)
         ### ========== TODO : END ========== ###
@@ -392,8 +395,10 @@ def main() :
     ### ========== TODO : START ========== ###
     # parts g-i: main code for polynomial regression
     print 'Investigating polynomial regression...'
-    pr_model.generate_polynomial_features(train_data.X)
-    pr_model.rms_error(train_data.X, train_data.y)
+    pr_model2 = PolynomialRegression(m=2)
+    pr_model2.generate_polynomial_features(train_data.X)
+    pr_model2.rms_error(train_data.X, train_data.y)
+
         
     ### ========== TODO : END ========== ###
     
