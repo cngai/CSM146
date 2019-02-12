@@ -363,8 +363,8 @@ def main() :
     ### ========== TODO : START ========== ###
     # part a: main code for visualizations
     print 'Visualizing data...'
-    # plot_data(train_data.X, train_data.y)
-    # plot_data(test_data.X, test_data.y)
+    plot_data(train_data.X, train_data.y)
+    plot_data(test_data.X, test_data.y)
     
     ### ========== TODO : END ========== ###
     
